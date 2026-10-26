@@ -1,0 +1,338 @@
+/* ============================================================
+   CALLWELL STYLES
+   Mobile first: base rules target phones. @media blocks at the
+   bottom of each section add rules for wider screens.
+   ============================================================ */
+
+/* ---------- Design tokens (change colors here) ---------- */
+:root {
+  --bg: #0b0f14;          /* page background */
+  --bg-alt: #10161d;      /* alternating section background */
+  --surface: #151d26;     /* cards */
+  --border: #233040;
+  --text: #e8edf2;        /* main text: ~16:1 contrast on --bg */
+  --muted: #9fadbb;       /* secondary text: ~8:1 contrast on --bg */
+  --accent: #3ddbb4;      /* the ONE accent color */
+  --accent-ink: #04140f;  /* text that sits on top of the accent */
+  --radius: 14px;
+  --max: 1120px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- Reset and base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* Room so the sticky mobile bar never covers the footer */
+  padding-bottom: 76px;
+}
+
+h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 0.5em; }
+h1 { font-size: clamp(2.4rem, 9vw, 4.25rem); font-weight: 700; }
+h2 { font-size: clamp(1.75rem, 5.5vw, 2.6rem); font-weight: 700; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0 0 1em; }
+
+a { color: var(--accent); }
+
+/* Visible focus ring for keyboard users. :focus-visible skips it for mouse clicks. */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+.narrow { max-width: 720px; }
+.center { text-align: center; }
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; }
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;            /* hidden above the screen until focused */
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 10px 16px;
+  border-radius: 8px;
+  z-index: 100;
+  font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 52px;       /* big tap target for thumbs */
+  padding: 0 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn--primary { background: var(--accent); color: var(--accent-ink); }
+.btn--primary:hover { background: #5ce6c4; }
+.btn--secondary { border-color: var(--border); color: var(--text); background: rgba(255, 255, 255, 0.03); }
+.btn--secondary:hover { border-color: var(--accent); }
+.btn--ghost { color: var(--text); border-color: var(--border); }
+.btn--small { min-height: 40px; padding: 0 16px; font-size: 0.9rem; }
+.btn--block { width: 100%; }
+.icon { width: 18px; height: 18px; fill: currentColor; }
+
+.cta-row { display: flex; flex-direction: column; gap: 12px; margin-top: 28px; }
+.cta-row--center { align-items: stretch; }
+
+@media (min-width: 560px) {
+  .cta-row { flex-direction: row; flex-wrap: wrap; }
+  .cta-row--center { justify-content: center; }
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: absolute;     /* floats over the hero */
+  inset: 0 0 auto 0;
+  z-index: 10;
+}
+.site-header__inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.2rem; }
+.brand__mark { width: 26px; height: 26px; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; fill: none; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 92svh;      /* svh = "small viewport height": ignores mobile browser bars */
+  display: flex;
+  align-items: center;
+  padding: 100px 0 60px;
+  overflow: hidden;
+  isolation: isolate;     /* keeps the z-index stacking inside the hero */
+}
+
+/* FALLBACK BACKGROUND: what you see with no WebGL, reduced motion, or before 3D loads. */
+.hero__visual {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 30%, rgba(61, 219, 180, 0.22), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 110%, rgba(61, 219, 180, 0.10), transparent 70%),
+    var(--bg);
+}
+/* Dark wash over the 3D scene so the headline always stays readable */
+.hero__visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 15, 20, 0.35) 0%, rgba(11, 15, 20, 0.55) 60%, var(--bg) 100%);
+  pointer-events: none;
+}
+.hero__visual canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;  /* fade in instead of popping */
+}
+.hero__visual canvas.is-ready { opacity: 0.6; }
+
+.hero__content { position: relative; }
+.eyebrow { color: var(--accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.hero__sub { font-size: 1.15rem; color: #c9d3dc; max-width: 34em; }
+.hero__note { margin-top: 14px; color: var(--muted); font-size: 0.9rem; }
+
+@media (min-width: 900px) {
+  .hero__content { max-width: var(--max); }
+  .hero__content > * { max-width: 600px; }
+  .hero__visual canvas.is-ready { opacity: 1; }
+  .hero__visual::after {
+    background: linear-gradient(90deg, rgba(11, 15, 20, 0.85) 0%, rgba(11, 15, 20, 0.3) 55%, transparent 100%),
+                linear-gradient(180deg, transparent 75%, var(--bg) 100%);
+  }
+}
+
+/* ---------- Sections ---------- */
+.section { padding: 72px 0; }
+.section--alt { background: var(--bg-alt); }
+@media (min-width: 768px) { .section { padding: 104px 0; } }
+
+/* ---------- How it works ---------- */
+.steps { list-style: none; padding: 0; margin: 40px 0 0; display: grid; gap: 16px; }
+.step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+.step__num {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(61, 219, 180, 0.12);
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.step p { color: var(--muted); margin: 0; }
+@media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+/* ---------- Calculator ---------- */
+.calc { margin-top: 28px; display: grid; gap: 20px; }
+.field label { display: block; font-weight: 600; margin-bottom: 8px; }
+.field input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.field input:focus-visible { border-color: var(--accent); }
+.hint { color: var(--muted); font-size: 0.875rem; margin: 8px 0 0; }
+.calc__result {
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+.calc__label { margin: 0; color: var(--muted); font-weight: 500; }
+.calc__total { display: block; font-size: clamp(2.2rem, 10vw, 3.2rem); font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+@media (min-width: 640px) {
+  .calc { grid-template-columns: 1fr 1fr; }
+  .calc .field:nth-child(3), .calc__result { grid-column: 1 / -1; }
+}
+
+/* ---------- Trades ---------- */
+.trades { list-style: none; padding: 0; margin: 36px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.trades li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.trades li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+@media (min-width: 640px) { .trades { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 960px) { .trades { grid-template-columns: repeat(5, 1fr); } }
+
+/* ---------- Features ---------- */
+.features { list-style: none; padding: 0; margin: 40px 0 0; display: grid; gap: 16px; }
+.feature { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+.feature p { color: var(--muted); margin: 0; }
+.feature__icon { width: 28px; height: 28px; stroke: var(--accent); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 14px; }
+@media (min-width: 640px) { .features { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .features { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+/* ---------- Pricing ---------- */
+.price-card {
+  max-width: 440px;
+  margin: 40px auto 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: center;
+}
+.price-card__name { color: var(--accent); font-weight: 600; margin: 0; }
+.price-card__price { font-size: 3.4rem; font-weight: 700; letter-spacing: -0.03em; margin: 4px 0 0; line-height: 1.1; }
+.price-card__per { font-size: 1.1rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.checklist { list-style: none; padding: 0; margin: 24px 0 28px; text-align: left; display: grid; gap: 10px; }
+.checklist li { display: flex; gap: 10px; align-items: baseline; }
+.checklist li::before { content: '\2713'; color: var(--accent); font-weight: 700; } /* \2713 is a checkmark */
+
+/* ---------- FAQ ---------- */
+.faq { margin-top: 28px; border-top: 1px solid var(--border); }
+.faq details { border-bottom: 1px solid var(--border); }
+.faq summary {
+  cursor: pointer;
+  list-style: none;       /* hide the default triangle */
+  padding: 20px 36px 20px 0;
+  font-weight: 600;
+  position: relative;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: '+';
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+.faq details[open] summary::after { content: '\2212'; } /* minus sign */
+.faq details p { color: var(--muted); padding-bottom: 20px; margin: 0; }
+
+/* ---------- Final CTA ---------- */
+.final-cta {
+  background: radial-gradient(ellipse 70% 80% at 50% 100%, rgba(61, 219, 180, 0.14), transparent 70%), var(--bg);
+}
+.final-cta p { color: #c9d3dc; }
+
+/* ---------- Footer ---------- */
+.site-footer { border-top: 1px solid var(--border); padding: 40px 0; }
+.site-footer__inner { display: grid; gap: 8px; }
+.site-footer p { margin: 0; }
+.site-footer a { color: var(--text); }
+.brand-text { font-weight: 700; font-size: 1.1rem; }
+.footer-links { list-style: none; padding: 0; margin: 0; display: flex; gap: 20px; }
+
+/* ---------- Sticky mobile call bar ---------- */
+.mobile-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); /* clears the iPhone home bar */
+  /* Solid background, no backdrop-filter blur: blurring over the moving 3D canvas
+     would force the phone to redo the blur every frame and drain battery. */
+  background: rgba(11, 15, 20, 0.97);
+  border-top: 1px solid var(--border);
+}
+.mobile-bar .btn--secondary { flex: none; }
+@media (min-width: 768px) {
+  .mobile-bar { display: none; }
+  body { padding-bottom: 0; }
+}
+
+/* ---------- Legal pages ---------- */
+.legal { padding: 110px 0 72px; }
+.legal h2 { font-size: 1.35rem; margin-top: 2em; }
+.draft-banner {
+  border: 1px solid #e0b341;
+  background: rgba(224, 179, 65, 0.1);
+  color: #f3d58a;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+
+/* ---------- Reduced motion ----------
+   If the visitor asked their OS for less motion, kill transitions and smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .btn:hover { transform: none; }
+}
