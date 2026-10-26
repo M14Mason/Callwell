@@ -9,8 +9,8 @@ Plain HTML, CSS, and JavaScript. No build step: the files in this folder ARE the
 | `index.html` | The whole landing page (all text lives here) |
 | `css/styles.css` | All styling. Colors are variables at the top |
 | `js/config.js` | **Edit this** for phone number, booking link, email, prices |
-| `js/main.js` | Fills in config values, calculator, loads animations and 3D |
-| `js/hero-scene.js` | The Three.js glowing sphere |
+| `js/main.js` | Config values, calculator, call demo, header, scroll animations, 3D loader |
+| `js/hero-scene.js` | The Three.js waveform lines in the hero |
 | `privacy.html`, `terms.html` | Draft legal pages, need a lawyer |
 | `.nojekyll` | Tells GitHub Pages to serve files as-is |
 

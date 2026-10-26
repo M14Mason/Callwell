@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Callwell | AI Phone Receptionist for San Diego Home Service Businesses</title>
   <meta name="description" content="Callwell answers your business calls 24/7, books jobs on your calendar, and texts customers a confirmation. Built for San Diego HVAC, plumbing, electrical, roofing, and more.">
-  <meta name="theme-color" content="#0b0f14">
+  <meta name="theme-color" content="#f1ece2">
 
   <!-- Open Graph tags control the preview card when someone shares the link -->
   <meta property="og:type" content="website">
@@ -15,20 +15,21 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts: preconnect opens the connection early so the font arrives sooner.
-       display=swap shows a system font immediately, then swaps in Inter (text never hides). -->
+  <!-- FONTS
+       Archivo: a "variable" font with a width axis (wdth 62 to 125). We stretch it wide
+       for headlines, like lettering on a work truck, and keep it normal for body text.
+       IBM Plex Mono: a monospace font for small labels, like a call log or work order.
+       rel="preload" + onload: downloads without blocking the first paint. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- rel="preload" downloads the font CSS without blocking the first paint.
-       onload flips it to a real stylesheet once it arrives. <noscript> covers JS-off visitors. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Mono:wght@500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Mono:wght@500&display=swap"></noscript>
 
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- IMPORT MAP: lets our JS write `import * as THREE from 'three'` instead of a long URL.
        Versions are pinned so a library update can never break the site by surprise.
-       ".min.js" and "+esm" are MINIFIED builds: whitespace and long names stripped, so they download faster. -->
+       ".min.js" and "+esm" are MINIFIED builds: smaller, so they download faster. -->
   <script type="importmap">
     {
       "imports": {
@@ -38,7 +39,7 @@
       }
     }
   </script>
-  <!-- type="module" scripts are deferred automatically: they run after the HTML is parsed,
+  <!-- type="module" scripts are deferred: they run after the HTML is parsed,
        so they never block the text and buttons from showing. -->
   <script type="module" src="js/main.js"></script>
 </head>
@@ -46,114 +47,222 @@
   <!-- Skip link: keyboard users press Tab once and can jump past the header -->
   <a class="skip-link" href="#main">Skip to main content</a>
 
-  <header class="site-header">
+  <header class="site-header" id="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="#top" aria-label="Callwell home">
-        <svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M4 12h2M8 8v8M12 5v14M16 8v8M20 12h-2" />
-        </svg>
-        <span>Callwell</span>
+      <a class="wordmark" href="#top" aria-label="Callwell home">
+        <span class="wordmark__dot" aria-hidden="true"></span>Callwell
       </a>
-      <a class="btn btn--small btn--ghost" data-booking-link href="[BOOKING LINK]">Book a demo</a>
+      <nav class="site-nav" aria-label="Main">
+        <ul role="list">
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn--ink btn--small" data-booking-link href="[BOOKING LINK]">Book a demo</a>
     </div>
   </header>
 
   <main id="main">
     <!-- ===================== 1. HERO ===================== -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <!-- The 3D canvas is injected here later. The CSS gradient on this div is the fallback. -->
-      <div class="hero__visual" id="hero-visual" aria-hidden="true"></div>
-
-      <div class="container hero__content">
-        <p class="eyebrow">AI receptionist for San Diego home service pros</p>
-        <h1 id="hero-title">Never miss a job again.</h1>
-        <p class="hero__sub">
-          Callwell answers every call 24/7, books the job on your calendar, and texts your
-          customer a confirmation. You stay on the job. The phone still gets answered.
-        </p>
-        <div class="cta-row">
-          <a class="btn btn--primary" data-demo-link href="tel:[DEMO NUMBER]">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
-            Call the demo: <span data-demo-number>[DEMO NUMBER]</span>
-          </a>
-          <a class="btn btn--secondary" data-booking-link href="[BOOKING LINK]">Book a demo</a>
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <p class="label hero__status">
+            <span class="live-dot" aria-hidden="true"></span>
+            Line open 24/7 &middot; San Diego, CA
+          </p>
+          <!-- Each line sits in a "mask" (overflow: hidden) so it can slide up into view -->
+          <h1 id="hero-title" class="display hero__title">
+            <span class="mask"><span class="rise" style="--d: 0">Never miss</span></span>
+            <span class="mask"><span class="rise" style="--d: 1">a job</span></span>
+            <span class="mask"><span class="rise" style="--d: 2">again<span class="accent-dot">.</span></span></span>
+          </h1>
+          <p class="hero__sub fade-in" style="--d: 3">
+            Callwell is the AI receptionist for home service businesses. It answers every
+            call, books the job on your calendar, and texts your customer a confirmation
+            while you stay on the job.
+          </p>
+          <div class="cta-row fade-in" style="--d: 4" id="hero-ctas">
+            <a class="btn btn--accent" data-demo-link href="tel:[DEMO NUMBER]">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+              <!-- One wrapper span: flexbox would otherwise split the label into separate pieces -->
+              <span>Call the demo: <span data-demo-number>[DEMO NUMBER]</span></span>
+            </a>
+            <a class="btn btn--line" data-booking-link href="[BOOKING LINK]">
+              Book a demo <span class="arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
         </div>
-        <p class="hero__note">Call it right now. Talk to it like a customer would.</p>
+
+        <!-- LIVE CALL CARD: an animated example of a real call, played by js/main.js.
+             Every line is real text in the HTML, so screen readers and no-JS visitors get it all. -->
+        <figure class="call fade-in" style="--d: 3" id="call-demo">
+          <div class="call__bar">
+            <span class="label"><span class="live-dot" aria-hidden="true"></span> Incoming call</span>
+            <span class="label call__timer" id="call-timer" aria-hidden="true">00:00</span>
+          </div>
+          <ol class="call__log" role="list">
+            <li class="msg msg--agent" data-step>
+              <span class="label">Callwell</span>
+              Thanks for calling. I can get you on the schedule. What's going on?
+            </li>
+            <li class="msg msg--caller" data-step>
+              <span class="label">Caller</span>
+              Our water heater is leaking all over the garage.
+            </li>
+            <li class="msg msg--agent" data-step>
+              <span class="label">Callwell</span>
+              Sorry about that. Checking the calendar now. I have tomorrow at 8 AM or 1 PM.
+            </li>
+            <li class="msg msg--caller" data-step>
+              <span class="label">Caller</span>
+              8 works.
+            </li>
+            <li class="event" data-step>
+              <span class="event__tick" aria-hidden="true">&#10003;</span>
+              <span><strong>Booked</strong> Tue 8:00 AM &middot; Water heater leak</span>
+            </li>
+            <li class="event" data-step>
+              <span class="event__tick" aria-hidden="true">&#10003;</span>
+              <span><strong>Text sent</strong> Confirmation to caller, summary to you</span>
+            </li>
+          </ol>
+          <figcaption class="label call__caption">Example call. Try the real one on the demo line.</figcaption>
+        </figure>
+      </div>
+
+      <!-- WAVEFORM BAND: Three.js draws animated lines here (js/hero-scene.js).
+           The SVG underneath is the static fallback for no WebGL or reduced motion. -->
+      <div class="wave" id="hero-visual" aria-hidden="true">
+        <svg class="wave__fallback" viewBox="0 0 1000 300" preserveAspectRatio="none" fill="none" stroke-width="1.25" vector-effect="non-scaling-stroke">
+          <path class="i" style="opacity:0.18" d="M0 278L17 277L33 277L50 277L67 277L83 276L100 275L117 274L133 274L150 277L167 281L183 284L200 284L217 284L233 284L250 285L267 285L283 282L300 276L317 271L333 270L350 274L367 279L383 279L400 272L417 262L433 257L450 259L467 264L483 269L500 271L517 274L533 283L550 296L567 306L583 307L600 298L617 286L633 278L650 275L667 276L683 275L700 272L717 270L733 271L750 274L767 276L783 277L800 275L817 273L833 273L850 275L867 278L883 279L900 280L917 279L933 279L950 279L967 279L983 278L1000 278"/>
+          <path class="i" style="opacity:0.25" d="M0 260L17 260L33 260L50 259L67 259L83 259L100 259L117 259L133 260L150 263L167 266L183 267L200 266L217 264L233 263L250 263L267 263L283 261L300 258L317 255L333 256L350 259L367 261L383 258L400 250L417 243L433 242L450 247L467 256L483 262L500 266L517 269L533 274L550 281L567 283L583 279L600 268L617 258L633 253L650 254L667 257L683 258L700 257L717 255L733 255L750 257L767 259L783 259L800 257L817 257L833 258L850 260L867 263L883 264L900 263L917 262L933 262L950 261L967 261L983 261L1000 260"/>
+          <path class="i" style="opacity:0.31" d="M0 243L17 243L33 243L50 243L67 243L83 243L100 243L117 244L133 244L150 245L167 246L183 246L200 245L217 244L233 243L250 244L267 244L283 243L300 242L317 241L333 242L350 242L367 242L383 241L400 238L417 236L433 238L450 242L467 246L483 249L500 249L517 249L533 250L550 250L567 250L583 247L600 243L617 240L633 240L650 241L667 243L683 243L700 242L717 241L733 241L750 242L767 243L783 243L800 243L817 243L833 244L850 244L867 245L883 245L900 245L917 244L933 244L950 244L967 243L983 243L1000 243"/>
+          <path class="i" style="opacity:0.38" d="M0 226L17 226L33 226L50 226L67 226L83 227L100 227L117 227L133 228L150 228L167 228L183 228L200 227L217 226L233 226L250 226L267 227L283 226L300 225L317 224L333 224L350 224L367 224L383 223L400 222L417 222L433 225L450 229L467 233L483 234L500 233L517 231L533 230L550 230L567 229L583 226L600 224L617 222L633 223L650 225L667 226L683 226L700 225L717 224L733 224L750 225L767 226L783 226L800 227L817 227L833 227L850 228L867 228L883 228L900 227L917 227L933 226L950 226L967 226L983 226L1000 226"/>
+          <path class="i" style="opacity:0.45" d="M0 209L17 209L33 209L50 210L67 211L83 211L100 211L117 212L133 212L150 213L167 212L183 210L200 208L217 206L233 208L250 210L267 210L283 208L300 204L317 201L333 200L350 202L367 203L383 202L400 202L417 207L433 217L450 228L467 233L483 231L500 223L517 215L533 211L550 210L567 208L583 204L600 200L617 199L633 203L650 208L667 209L683 207L700 203L717 201L733 203L750 207L767 211L783 212L800 213L817 213L833 213L850 214L867 213L883 211L900 209L917 208L933 208L950 209L967 209L983 209L1000 209"/>
+          <path class="i" style="opacity:0.51" d="M0 192L17 192L33 193L50 194L67 195L83 195L100 195L117 194L133 195L150 195L167 194L183 191L200 189L217 189L233 191L250 193L267 192L283 187L300 181L317 177L333 179L350 184L367 189L383 192L400 195L417 203L433 215L450 223L467 223L483 212L500 197L517 187L533 185L550 187L567 188L583 185L600 181L617 181L633 185L650 190L667 190L683 186L700 182L717 183L733 188L750 195L767 200L783 201L800 199L817 198L833 197L850 196L867 195L883 192L900 191L917 190L933 191L950 192L967 192L983 192L1000 192"/>
+          <path class="i" style="opacity:0.58" d="M0 175L17 176L33 176L50 177L67 177L83 177L100 176L117 176L133 176L150 176L167 175L183 174L200 173L217 173L233 175L250 175L267 173L283 169L300 166L317 166L333 170L350 176L367 180L383 183L400 185L417 188L433 192L450 193L467 188L483 179L500 170L517 166L533 168L550 172L567 173L583 171L600 169L617 168L633 170L650 172L667 172L683 171L700 170L717 173L733 177L750 182L767 183L783 182L800 180L817 178L833 177L850 176L867 175L883 174L900 174L917 174L933 175L950 175L967 175L983 175L1000 175"/>
+          <path class="a" style="opacity:0.65" d="M0 159L17 159L33 159L50 159L67 159L83 159L100 158L117 158L133 158L150 159L167 158L183 158L200 158L217 158L233 158L250 158L267 157L283 156L300 155L317 156L333 159L350 161L367 163L383 163L400 162L417 162L433 163L450 162L467 160L483 157L500 155L517 155L533 156L550 158L567 158L583 157L600 156L617 155L633 156L650 157L667 158L683 158L700 158L717 159L733 161L750 162L767 161L783 160L800 159L817 158L833 158L850 158L867 158L883 158L900 158L917 158L933 158L950 158L967 159L983 158L1000 158"/>
+          <path class="a" style="opacity:0.65" d="M0 142L17 142L33 142L50 142L67 142L83 141L100 141L117 141L133 141L150 142L167 141L183 141L200 140L217 140L233 140L250 140L267 139L283 138L300 139L317 142L333 146L350 150L367 150L383 149L400 146L417 145L433 144L450 142L467 140L483 136L500 135L517 136L533 140L550 141L567 140L583 138L600 135L617 136L633 138L650 141L667 143L683 143L700 144L717 145L733 147L750 147L767 145L783 143L800 141L817 140L833 140L850 141L867 141L883 141L900 141L917 141L933 141L950 142L967 141L983 141L1000 141"/>
+          <path class="i" style="opacity:0.58" d="M0 125L17 125L33 125L50 125L67 124L83 124L100 123L117 124L133 125L150 125L167 123L183 121L200 119L217 119L233 120L250 121L267 121L283 122L300 126L317 134L333 142L350 146L367 142L383 134L400 126L417 122L433 122L450 121L467 117L483 112L500 111L517 116L533 122L550 123L567 118L583 112L600 110L617 114L633 124L650 132L667 135L683 135L700 134L717 135L733 135L750 133L767 128L783 122L800 119L817 119L833 121L850 123L867 123L883 123L900 123L917 124L933 124L950 124L967 124L983 124L1000 124"/>
+          <path class="i" style="opacity:0.51" d="M0 108L17 108L33 108L50 108L67 107L83 106L100 106L117 107L133 108L150 107L167 105L183 102L200 100L217 102L233 105L250 108L267 110L283 113L300 117L317 123L333 128L350 126L367 117L383 106L400 98L417 98L433 101L450 103L467 100L483 96L500 95L517 99L533 103L550 103L567 98L583 93L600 96L617 106L633 118L650 125L667 125L683 122L700 118L717 116L733 114L750 110L767 105L783 101L800 100L817 102L833 105L850 107L867 107L883 106L900 106L917 106L933 107L950 108L967 108L983 108L1000 108"/>
+          <path class="i" style="opacity:0.45" d="M0 90L17 90L33 91L50 90L67 90L83 90L100 90L117 90L133 90L150 90L167 88L183 87L200 87L217 89L233 92L250 94L267 95L283 96L300 97L317 98L333 98L350 95L367 90L383 85L400 83L417 85L433 88L450 89L467 87L483 84L500 83L517 85L533 87L550 87L567 86L583 86L600 90L617 96L633 101L650 103L667 100L683 96L700 93L717 91L733 90L750 89L767 87L783 87L800 87L817 89L833 90L850 91L867 90L883 90L900 90L917 90L933 90L950 91L967 91L983 91L1000 91"/>
+          <path class="i" style="opacity:0.38" d="M0 73L17 73L33 74L50 73L67 73L83 73L100 73L117 73L133 73L150 73L167 73L183 72L200 73L217 74L233 75L250 76L267 76L283 76L300 75L317 75L333 75L350 73L367 72L383 70L400 71L417 72L433 73L450 73L467 72L483 70L500 70L517 71L533 72L550 73L567 74L583 74L600 76L617 78L633 79L650 78L667 76L683 74L700 73L717 72L733 72L750 72L767 72L783 72L800 73L817 73L833 74L850 74L867 73L883 73L900 73L917 73L933 74L950 74L967 74L983 74L1000 74"/>
+          <path class="i" style="opacity:0.31" d="M0 56L17 56L33 57L50 56L67 56L83 56L100 55L117 55L133 56L150 55L167 55L183 56L200 58L217 61L233 63L250 63L267 61L283 59L300 57L317 57L333 56L350 53L367 50L383 49L400 51L417 54L433 56L450 54L467 50L483 47L500 48L517 53L533 58L550 62L567 63L583 64L600 66L617 68L633 68L650 63L667 57L683 52L700 51L717 52L733 54L750 54L767 54L783 54L800 55L817 56L833 57L850 56L867 56L883 56L900 56L917 57L933 57L950 58L967 57L983 57L1000 57"/>
+          <path class="i" style="opacity:0.25" d="M0 39L17 40L33 40L50 39L67 38L83 37L100 37L117 38L133 39L150 39L167 40L183 42L200 46L217 50L233 52L250 49L267 42L283 37L300 35L317 35L333 35L350 33L367 29L383 28L400 31L417 36L433 37L450 31L467 24L483 23L500 31L517 44L533 56L550 60L567 59L583 57L600 57L617 56L633 50L650 41L667 30L683 25L700 27L717 32L733 37L750 38L767 36L783 36L800 37L817 38L833 39L850 39L867 39L883 39L900 40L917 42L933 42L950 42L967 41L983 40L1000 39"/>
+          <path class="i" style="opacity:0.18" d="M0 22L17 22L33 22L50 22L67 21L83 20L100 21L117 22L133 24L150 25L167 26L183 27L200 29L217 31L233 30L250 25L267 19L283 15L300 16L317 18L333 20L350 18L367 14L383 13L400 15L417 18L433 18L450 14L467 11L483 15L500 26L517 39L533 47L550 46L567 40L583 33L600 30L617 27L633 22L650 15L667 10L683 9L700 13L717 19L733 22L750 22L767 20L783 19L800 20L817 22L833 23L850 24L867 23L883 24L900 24L917 25L933 25L950 24L967 23L983 22L1000 22"/>
+        </svg>
       </div>
     </section>
 
+    <!-- TICKER: a strip of text that scrolls sideways forever (pure CSS animation).
+         The second copy exists only to make the loop seamless, so screen readers skip it. -->
+    <div class="ticker" aria-label="What Callwell does">
+      <div class="ticker__track">
+        <p class="ticker__group">
+          <span>Answers 24/7</span><span>Books on your calendar</span><span>Texts confirmations</span><span>Sends you call summaries</span><span>Keeps your number</span>
+        </p>
+        <p class="ticker__group" aria-hidden="true">
+          <span>Answers 24/7</span><span>Books on your calendar</span><span>Texts confirmations</span><span>Sends you call summaries</span><span>Keeps your number</span>
+        </p>
+      </div>
+    </div>
+
     <!-- ===================== 2. PROBLEM ===================== -->
     <!-- No statistics on purpose: we only state things we can stand behind. -->
-    <section class="section" aria-labelledby="problem-title">
-      <div class="container narrow">
-        <h2 id="problem-title">Every missed call is a job someone else gets.</h2>
-        <p>
-          You're on a roof, under a sink, or driving between jobs. The phone rings and you
-          can't pick up. A customer with a burst pipe or a dead AC usually isn't going to sit
-          and wait for a callback. They call the next company on the list.
+    <section class="section problem" aria-labelledby="problem-title">
+      <div class="container">
+        <p class="label section-label">01 / The problem</p>
+        <h2 id="problem-title" class="visually-hidden">Missed calls become someone else's jobs</h2>
+        <!-- data-scrub: main.js lights this up word by word as you scroll -->
+        <p class="problem__big" data-scrub>
+          You're on a roof. Under a sink. Halfway to the next job. The phone rings and you
+          can't pick up. The caller doesn't wait for a callback. They call the next company
+          on the list, and that job is gone.
         </p>
-        <p>
-          That job goes to your competitor, and so does the repeat business that would have
-          come with it. Voicemail doesn't fix this. Hiring a full-time receptionist costs more
-          than most small shops want to spend. Callwell answers for you, every time.
-        </p>
+        <div class="problem__foot">
+          <p>
+            So is the repeat business that would have come with it. Voicemail doesn't fix
+            this. A full-time receptionist costs more than most small shops want to spend.
+          </p>
+          <p><span class="problem__answer">Callwell answers for you. Every call, every time.</span></p>
+        </div>
       </div>
     </section>
 
     <!-- ===================== 3. HOW IT WORKS ===================== -->
-    <section class="section section--alt" aria-labelledby="how-title">
-      <div class="container">
-        <h2 id="how-title" class="center">How it works</h2>
-        <!-- An ordered list (<ol>) because the steps happen in order -->
-        <ol class="steps" role="list">
-          <li class="step">
-            <span class="step__num" aria-hidden="true">1</span>
-            <h3>A call comes in</h3>
-            <p>A customer calls your business number, day or night, weekday or holiday.</p>
-          </li>
-          <li class="step">
-            <span class="step__num" aria-hidden="true">2</span>
-            <h3>Callwell answers and books</h3>
-            <p>It greets them by your business name, asks what they need, checks your calendar, and books an open slot.</p>
-          </li>
-          <li class="step">
-            <span class="step__num" aria-hidden="true">3</span>
-            <h3>You get a text summary</h3>
-            <p>You get the caller's name, number, issue, and appointment time. They get a text confirmation.</p>
-          </li>
-        </ol>
+    <section class="section section--rule" id="how" aria-labelledby="how-title">
+      <div class="container how">
+        <div class="how__head">
+          <p class="label section-label">02 / How it works</p>
+          <h2 id="how-title" class="display display--md" data-split>Three steps. Zero missed calls.</h2>
+        </div>
+        <div class="how__steps">
+          <!-- The orange line on the left fills up as you scroll (scrubbed by GSAP) -->
+          <span class="how__progress" aria-hidden="true"><span class="how__progress-fill"></span></span>
+          <ol class="steps" role="list">
+            <li class="step">
+              <span class="step__num label">01</span>
+              <h3>A call comes in</h3>
+              <p>A customer calls your business number. Day or night, weekday or holiday.</p>
+            </li>
+            <li class="step">
+              <span class="step__num label">02</span>
+              <h3>Callwell answers and books</h3>
+              <p>It asks what they need, checks your calendar, and books an open slot while they're still on the line.</p>
+            </li>
+            <li class="step">
+              <span class="step__num label">03</span>
+              <h3>You get a text summary</h3>
+              <p>You get the caller's name, number, issue, and appointment time. They get a text confirmation.</p>
+            </li>
+          </ol>
+        </div>
       </div>
     </section>
 
     <!-- ===================== 4. CALCULATOR ===================== -->
-    <section class="section" aria-labelledby="calc-title">
-      <div class="container narrow">
-        <h2 id="calc-title">What are missed calls costing you?</h2>
-        <p class="muted">Plug in your own numbers. Nothing you type leaves this page.</p>
+    <section class="section section--ink" id="calculator" aria-labelledby="calc-title">
+      <div class="container calc-wrap">
+        <div>
+          <p class="label section-label">03 / The math</p>
+          <h2 id="calc-title" class="display display--md" data-split>What are missed calls costing you?</h2>
+          <p class="muted">Drag the sliders to match your business. Nothing you enter leaves this page.</p>
+        </div>
 
-        <!-- A real <form> with <label>s so screen readers announce each field.
-             novalidate: we handle bad input ourselves instead of browser popups. -->
+        <!-- Range sliders with <label>s, so screen readers announce each one.
+             <output> shows the current value next to the label. -->
         <form class="calc" id="calc" novalidate>
           <div class="field">
-            <label for="calls">Missed calls per week</label>
-            <input id="calls" name="calls" type="number" inputmode="numeric" min="0" step="1" value="5">
+            <div class="field__top">
+              <label for="calls">Missed calls per week</label>
+              <output class="field__val" for="calls" id="calls-val">5</output>
+            </div>
+            <input id="calls" name="calls" type="range" min="0" max="50" step="1" value="5">
           </div>
           <div class="field">
-            <label for="value">Average job value ($)</label>
-            <input id="value" name="value" type="number" inputmode="numeric" min="0" step="10" value="400">
+            <div class="field__top">
+              <label for="value">Average job value</label>
+              <output class="field__val" for="value" id="value-val">$400</output>
+            </div>
+            <input id="value" name="value" type="range" min="50" max="5000" step="25" value="400">
           </div>
           <div class="field">
-            <label for="rate">Share of those callers who would have booked (%)</label>
-            <input id="rate" name="rate" type="number" inputmode="numeric" min="0" max="100" step="5" value="50" aria-describedby="rate-hint">
+            <div class="field__top">
+              <label for="rate">Callers who would have booked</label>
+              <output class="field__val" for="rate" id="rate-val">50%</output>
+            </div>
+            <input id="rate" name="rate" type="range" min="0" max="100" step="5" value="50" aria-describedby="rate-hint">
             <p class="hint" id="rate-hint">Not every caller books. Set this to what you see in your business.</p>
           </div>
 
-          <!-- aria-live="polite": screen readers read the new total out loud when it changes -->
+          <!-- aria-live="polite": screen readers read the new total when it changes -->
           <div class="calc__result" aria-live="polite">
-            <p class="calc__label">Estimated revenue lost per month</p>
+            <p class="label">Estimated revenue lost per month</p>
             <output class="calc__total" id="calc-total" for="calls value rate">$4,333</output>
             <p class="hint">
-              Estimate only: missed calls &times; booking rate &times; job value &times; 4.33 weeks per month.
+              Estimate only: missed calls &times; booking rate &times; job value &times; 4.33 weeks.
               Your real numbers will vary.
             </p>
           </div>
@@ -162,58 +271,62 @@
     </section>
 
     <!-- ===================== 5. TRADES ===================== -->
-    <section class="section section--alt" aria-labelledby="trades-title">
+    <section class="section" aria-labelledby="trades-title">
       <div class="container">
-        <h2 id="trades-title" class="center">Built for the trades</h2>
+        <p class="label section-label">04 / Who it's for</p>
+        <h2 id="trades-title" class="display display--md" data-split>Built for the trades.</h2>
         <ul class="trades" role="list">
-          <li>HVAC</li>
-          <li>Plumbing</li>
-          <li>Electrical</li>
-          <li>Roofing</li>
-          <li>Landscaping</li>
-          <li>Cleaning</li>
-          <li>Pest control</li>
-          <li>Pool service</li>
-          <li>Handyman</li>
-          <li>Garage doors</li>
+          <li><span class="label">01</span>HVAC</li>
+          <li><span class="label">02</span>Plumbing</li>
+          <li><span class="label">03</span>Electrical</li>
+          <li><span class="label">04</span>Roofing</li>
+          <li><span class="label">05</span>Landscaping</li>
+          <li><span class="label">06</span>Cleaning</li>
+          <li><span class="label">07</span>Pest control</li>
+          <li><span class="label">08</span>Pool service</li>
+          <li><span class="label">09</span>Handyman</li>
+          <li><span class="label">10</span>Garage doors</li>
         </ul>
       </div>
     </section>
 
     <!-- ===================== 6. FEATURES ===================== -->
-    <section class="section" aria-labelledby="features-title">
+    <!-- A spec-sheet grid with hairline borders instead of floating cards.
+         pathLength="1" on each icon lets CSS "draw" the lines in on scroll. -->
+    <section class="section section--alt" aria-labelledby="features-title">
       <div class="container">
-        <h2 id="features-title" class="center">Everything a front desk does</h2>
-        <ul class="features" role="list">
-          <li class="feature">
-            <svg class="feature__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>
+        <p class="label section-label">05 / What you get</p>
+        <h2 id="features-title" class="display display--md" data-split>Everything a front desk does.</h2>
+        <ul class="specs" role="list">
+          <li class="spec">
+            <svg class="spec__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect pathLength="1" x="3" y="5" width="18" height="16" rx="1"/><path pathLength="1" d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/></svg>
             <h3>Calendar booking</h3>
-            <p>Checks your real availability and books the appointment while the customer is still on the line.</p>
+            <p>Checks your real availability and books the appointment during the call.</p>
           </li>
-          <li class="feature">
-            <svg class="feature__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <li class="spec">
+            <svg class="spec__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle pathLength="1" cx="12" cy="12" r="9"/><path pathLength="1" d="M12 7v5l3 2"/></svg>
             <h3>24/7 answering</h3>
-            <p>Nights, weekends, and holidays. No voicemail, no hold music, no missed jobs.</p>
+            <p>Nights, weekends, and holidays. No voicemail, no hold music.</p>
           </li>
-          <li class="feature">
-            <svg class="feature__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 10h8"/></svg>
+          <li class="spec">
+            <svg class="spec__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M4 5h16v11H8l-4 4z"/><path pathLength="1" d="M8 10h8"/></svg>
             <h3>Text confirmations</h3>
-            <p>Your customer gets a text with the appointment details as soon as the call ends.</p>
+            <p>Your customer gets the appointment details by text as soon as the call ends.</p>
           </li>
-          <li class="feature">
-            <svg class="feature__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7"/></svg>
+          <li class="spec">
+            <svg class="spec__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6 3h9l4 4v14H6z"/><path pathLength="1" d="M9 11h7M9 15h7"/></svg>
             <h3>Call summaries</h3>
-            <p>Every call is summarized and texted to you: who called, what they need, and when you're booked.</p>
+            <p>Every call summarized and texted to you: who called, what they need, when they're booked.</p>
           </li>
-          <li class="feature">
-            <svg class="feature__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h2M8 8v8M12 5v14M16 8v8M20 12h-2"/></svg>
+          <li class="spec">
+            <svg class="spec__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M3 12h2M7 8v8M11 4v16M15 7v10M19 10v4"/></svg>
             <h3>Natural-sounding voice</h3>
-            <p>A clear, friendly voice that handles real conversations, not a phone tree.</p>
+            <p>A clear, friendly voice that holds a real conversation. Not a phone tree.</p>
           </li>
-          <li class="feature">
-            <svg class="feature__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+          <li class="spec">
+            <svg class="spec__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path pathLength="1" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
             <h3>Keeps your number</h3>
-            <p>Works with the business number your customers already have. No new number to print on the truck.</p>
+            <p>Works with the number already on your truck, your cards, and your Google listing.</p>
           </li>
         </ul>
       </div>
@@ -223,50 +336,57 @@
          Only add REAL quotes from REAL customers who gave written permission.
          Fake reviews can violate FTC rules. Remove the comment markers to show this section.
 
-    <section class="section section--alt" aria-labelledby="testimonials-title">
+    <section class="section" aria-labelledby="testimonials-title">
       <div class="container">
-        <h2 id="testimonials-title" class="center">What owners say</h2>
-        <ul class="features" role="list">
-          <li class="feature">
-            <blockquote>
-              <p>"Quote goes here."</p>
-            </blockquote>
-            <p class="muted">Name, Business, Trade</p>
-          </li>
-        </ul>
+        <p class="label section-label">From owners</p>
+        <h2 id="testimonials-title" class="display display--md">What owners say.</h2>
+        <blockquote class="problem__big">
+          <p>"Quote goes here."</p>
+          <footer class="label">Name, Business, Trade</footer>
+        </blockquote>
       </div>
     </section>
     ============================================================================== -->
 
     <!-- ===================== 7. PRICING ===================== -->
-    <section class="section section--alt" aria-labelledby="pricing-title">
-      <div class="container">
-        <h2 id="pricing-title" class="center">Simple pricing</h2>
-        <div class="price-card">
-          <p class="price-card__name">Callwell</p>
-          <!-- Numbers in data-price spans are overwritten from js/config.js -->
-          <p class="price-card__price">
-            <span data-price="monthly">$149</span><span class="price-card__per">/month</span>
+    <!-- Styled like a work-order receipt. Prices come from js/config.js. -->
+    <section class="section" id="pricing" aria-labelledby="pricing-title">
+      <div class="container pricing">
+        <div>
+          <p class="label section-label">06 / Pricing</p>
+          <h2 id="pricing-title" class="display display--md" data-split>One plan. No surprises.</h2>
+          <p class="muted">Everything included. No per-call fees from us, no long-term contract.</p>
+        </div>
+        <div class="receipt">
+          <p class="receipt__price">
+            <span data-price="monthly">$149</span><span class="label receipt__per">/ month</span>
           </p>
-          <p class="muted">plus a one-time <span data-price="setup">$299</span> setup fee</p>
-          <ul class="checklist" role="list">
+          <dl class="receipt__lines">
+            <div><dt>Monthly plan</dt><dd data-price="monthly">$149</dd></div>
+            <div><dt>One-time setup</dt><dd data-price="setup">$299</dd></div>
+            <div><dt>Contract</dt><dd>None</dd></div>
+            <div><dt>Cancel</dt><dd>Anytime</dd></div>
+          </dl>
+          <ul class="receipt__list" role="list">
             <li>24/7 call answering</li>
             <li>Calendar booking</li>
             <li>Text confirmations to customers</li>
             <li>Call summaries texted to you</li>
             <li>Works with your existing number</li>
-            <li>Cancel anytime</li>
           </ul>
-          <a class="btn btn--primary btn--block" data-booking-link href="[BOOKING LINK]">Book a demo</a>
+          <a class="btn btn--accent btn--block" data-booking-link href="[BOOKING LINK]">Book a demo</a>
         </div>
       </div>
     </section>
 
     <!-- ===================== 8. FAQ ===================== -->
     <!-- <details>/<summary> is a built-in accordion: keyboard accessible with zero JavaScript. -->
-    <section class="section" aria-labelledby="faq-title">
-      <div class="container narrow">
-        <h2 id="faq-title">Questions</h2>
+    <section class="section section--rule" id="faq" aria-labelledby="faq-title">
+      <div class="container faq-wrap">
+        <div>
+          <p class="label section-label">07 / Questions</p>
+          <h2 id="faq-title" class="display display--md" data-split>Straight answers.</h2>
+        </div>
         <div class="faq">
           <details>
             <summary>How long does setup take?</summary>
@@ -277,7 +397,7 @@
             <p>Yes. You keep your number. You turn on call forwarding from your existing line to Callwell, and we walk you through it during setup.</p>
           </details>
           <details>
-            <summary>What if a caller wants to talk to a real person?</summary>
+            <summary>What if a caller wants a real person?</summary>
             <p>Callwell offers them a callback, takes their details, and texts them to you right away so you can call back when you're free.</p>
           </details>
           <details>
@@ -293,39 +413,44 @@
     </section>
 
     <!-- ===================== 9. FINAL CTA ===================== -->
-    <section class="section final-cta" aria-labelledby="final-title">
-      <div class="container narrow center">
-        <h2 id="final-title">Hear it for yourself.</h2>
-        <p>Call the demo line and talk to Callwell the way your customers would.</p>
-        <div class="cta-row cta-row--center">
-          <a class="btn btn--primary" data-demo-link href="tel:[DEMO NUMBER]">
-            Call the demo: <span data-demo-number>[DEMO NUMBER]</span>
-          </a>
-          <a class="btn btn--secondary" data-booking-link href="[BOOKING LINK]">Book a demo</a>
-        </div>
+    <section class="final" aria-labelledby="final-title">
+      <div class="container">
+        <p class="label">The demo line is open right now</p>
+        <h2 id="final-title" class="visually-hidden">Call the demo</h2>
+        <!-- The phone number IS the headline. Tap it to call. -->
+        <a class="final__number display" data-demo-link href="tel:[DEMO NUMBER]">
+          <span class="visually-hidden">Call the demo: </span><span data-demo-number>[DEMO NUMBER]</span>
+        </a>
+        <p class="final__sub">Call it and talk to Callwell the way your customers would. Or book a walkthrough.</p>
+        <a class="btn btn--ink" data-booking-link href="[BOOKING LINK]">
+          Book a demo <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
       </div>
     </section>
   </main>
 
   <!-- ===================== 10. FOOTER ===================== -->
   <footer class="site-footer">
-    <div class="container site-footer__inner">
-      <p class="brand-text">Callwell</p>
-      <p><a data-email-link href="mailto:[EMAIL]"><span data-email>[EMAIL]</span></a></p>
-      <nav aria-label="Legal">
-        <ul class="footer-links" role="list">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms of Service</a></li>
-        </ul>
-      </nav>
-      <p class="muted small">&copy; <span id="year">2026</span> Callwell. San Diego, CA.</p>
+    <div class="container">
+      <div class="site-footer__row">
+        <p><a data-email-link href="mailto:[EMAIL]"><span data-email>[EMAIL]</span></a></p>
+        <nav aria-label="Legal">
+          <ul class="footer-links" role="list">
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Service</a></li>
+          </ul>
+        </nav>
+        <p class="label">&copy; <span id="year">2026</span> Callwell &middot; San Diego, CA</p>
+      </div>
+      <!-- Giant wordmark that spans the full width. Decorative, so hidden from screen readers. -->
+      <p class="footer-mark display" aria-hidden="true">Callwell</p>
     </div>
   </footer>
 
-  <!-- Sticky call bar: phones only. Puts the #1 action under the visitor's thumb. -->
-  <div class="mobile-bar">
-    <a class="btn btn--primary btn--block" data-demo-link href="tel:[DEMO NUMBER]">Call the demo</a>
-    <a class="btn btn--secondary" data-booking-link href="[BOOKING LINK]">Book</a>
+  <!-- Sticky call bar: phones only. Slides up once the hero buttons scroll away. -->
+  <div class="mobile-bar" id="mobile-bar">
+    <a class="btn btn--accent btn--block" data-demo-link href="tel:[DEMO NUMBER]">Call the demo</a>
+    <a class="btn btn--paper" data-booking-link href="[BOOKING LINK]">Book</a>
   </div>
 </body>
 </html>
